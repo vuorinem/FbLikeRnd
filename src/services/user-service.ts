@@ -5,6 +5,8 @@ import { FbService } from "services/fb-service";
 @autoinject
 export class UserService {
     private authResponse: any;
+    
+    private id: string | undefined;
     private name: string | undefined;
 
     @computedFrom('authResponse')
@@ -53,6 +55,7 @@ export class UserService {
 
         return new Promise((resolve, reject) => {
             this.fbService.FB.api('/me', response => {
+                this.id = response.id;
                 this.name = response.name;
 
                 resolve();
