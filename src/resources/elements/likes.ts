@@ -32,11 +32,12 @@ export class Likes {
     }
 
     const likes = await this.userService.fbPageApi(`/${this.selectedPost.id}/likes`,
-      this.selectedPage.access_token);
+      this.selectedPage.access_token, 'id,name,link');
 
     this.likes = likes.data.map(like => <Like>{
       id: like.id,
       name: like.name,
+      link: like.link,
     });
 
     if (this.selectedLike) {
