@@ -28,4 +28,8 @@ export class App implements ConfiguresRouter, RoutableComponentActivate {
   private login() {
     this.userService.login();
   }
+
+  private logout() {
+    this.userService.logout();
+  }
 }

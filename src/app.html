@@ -3,6 +3,7 @@
     <div if.bind="userService.isAuthenticated">
       <header>
         Welcome, ${ userService.name }
+        <a href="#" class="float-right" click.delegate="logout()">Logout</a>
       </header>
       <main>
         <router-view></router-view>

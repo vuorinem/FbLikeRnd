@@ -10,7 +10,7 @@ export class UserService {
   private authResponse: any;
 
   @computedFrom('authResponse')
-  private get isAuthenticated(): boolean {
+  public get isAuthenticated(): boolean {
     return this.authResponse.status === 'connected';
   }
 
@@ -22,29 +22,21 @@ export class UserService {
     return new Promise(async (resolve, reject) => {
       await this.fbService.initialize();
 
-      this.fbService.FB.getLoginStatus(async response => {
-        this.authResponse = response;
-
-        await this.updateUserDetails();
-
-        resolve();
-      });
+      this.fbService.FB.getLoginStatus(this.getAuthResponseHandler(resolve));
     });
   }
 
   public login(): Promise<void> {
     return new Promise((resolve, reject) => {
-      const handleResponse = async response => {
-        this.authResponse = response;
-
-        await this.updateUserDetails();
-
-        resolve();
-      }
-
-      this.fbService.FB.login(handleResponse, {
+      this.fbService.FB.login(this.getAuthResponseHandler(resolve), {
         scope: 'manage_pages,pages_show_list',
       });
+    });
+  }
+
+  public logout(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.fbService.FB.logout(this.getAuthResponseHandler(resolve));
     });
   }
 
@@ -69,5 +61,15 @@ export class UserService {
         resolve();
       });
     });
+  }
+
+  private getAuthResponseHandler(resolve: () => void) {
+    return async response => {
+      this.authResponse = response;
+
+      await this.updateUserDetails();
+
+      resolve();
+    }
   }
 }
