@@ -48,6 +48,16 @@ export class UserService {
     });
   }
 
+  public fbPageApi(endpoint: string, pageAccessToken: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.fbService.FB.api(endpoint, response => {
+        resolve(response);
+      }, {
+          access_token: pageAccessToken,
+        });
+    });
+  }
+
   private updateUserDetails(): Promise<void> {
     if (!this.isAuthenticated) {
       this.name = undefined;

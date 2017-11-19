@@ -31,6 +31,7 @@ export class Pages implements ComponentAttached {
     this.pages = pages.data.map(page => <Page>{
       id: page.id,
       name: page.name,
+      access_token: page.access_token,
     });
 
     if (this.selectedPage) {
