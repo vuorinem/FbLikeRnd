@@ -8,12 +8,16 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="2.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
     <!-- Files not to show in IDE -->
     <None Remove="yarn.lock" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Areas\Api\Data\" />
+    <Folder Include="Areas\Api\Models\" />
+    <Folder Include="Areas\Api\Views\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
   <ItemGroup>
