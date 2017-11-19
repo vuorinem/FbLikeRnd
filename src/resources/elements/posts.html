@@ -1,0 +1,10 @@
+<template>
+  <div class="list-group">
+    <a href="#"
+       repeat.for="post of posts"
+       click.delegate="select(post)"
+       class="list-group-item ${post === selectedPost ? 'active' : ''}">
+      ${ post.message }
+    </a>
+  </div>
+</template>
