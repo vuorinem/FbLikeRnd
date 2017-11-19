@@ -1,5 +1,16 @@
 <template>
-    <h1>Home</h1>
-
-    <pages></pages>
+  <div class="row">
+    <div class="col-md">
+      <h2>Pages</h2>
+      <pages selected-page.two-way="selectedPage"></pages>
+    </div>
+    <div class="col-md">
+        <h2>Posts</h2>
+      <posts selected-page.bind="selectedPage" selected-post.two-way="selectedPost"></posts>
+    </div>
+    <div class="col-md">
+        <h2>Likes</h2>
+      <likes selected-post.bind="selectedPost"></likes>
+    </div>
+  </div>
 </template>

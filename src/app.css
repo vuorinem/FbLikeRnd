@@ -1,0 +1,15 @@
+body {
+  background-color: #abc7c5;
+}
+
+header {
+  padding: 10px;
+  background-color: #000;
+  color: #fff;
+}
+
+main {
+  padding: 10px;
+  background-color: #fff;
+  border-bottom: 2px solid #ccc;
+}

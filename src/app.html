@@ -1,14 +1,16 @@
 <template>
-  <div if.bind="userService.isAuthenticated">
-    <header>
-      Welcome, ${ userService.name }
-    </header>
-    <main>
-      <router-view></router-view>
-    </main>
-  </div>
-  <div else>
-    You have not logged in
-    <button click.delegate="login()">Login</button>
+  <div class="container">
+    <div if.bind="userService.isAuthenticated">
+      <header>
+        Welcome, ${ userService.name }
+      </header>
+      <main>
+        <router-view></router-view>
+      </main>
+    </div>
+    <div else>
+      You have not logged in
+      <button click.delegate="login()">Login</button>
+    </div>
   </div>
 </template>

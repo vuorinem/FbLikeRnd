@@ -1,7 +1,9 @@
 <template>
-  <ul>
-    <li repeat.for="page of pages">
-      a - ${ page.name }
-    </li>
-  </ul>
+  <div class="list-group">
+    <a href="#"
+       repeat.for="page of pages"
+       class="list-group-item ${page === selectedPage ? 'active' : ''}">
+      ${ page.name }
+    </a>
+  </div>
 </template>

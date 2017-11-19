@@ -8,6 +8,9 @@ import * as Bluebird from 'bluebird';
 // remove out if you don't want a Promise polyfill (remove also from webpack.config.js)
 Bluebird.config({ warnings: { wForgottenReturn: false } });
 
+import "bootstrap/dist/css/bootstrap.min.css";
+import "app.css";
+
 export function configure(aurelia: Aurelia) {
   aurelia.use
     .standardConfiguration()
