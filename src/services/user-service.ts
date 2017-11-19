@@ -48,12 +48,13 @@ export class UserService {
     });
   }
 
-  public fbPageApi(endpoint: string, pageAccessToken: string): Promise<any> {
+  public fbPageApi(endpoint: string, pageAccessToken: string, fields?: string): Promise<any> {
     return new Promise((resolve, reject) => {
       this.fbService.FB.api(endpoint, response => {
         resolve(response);
       }, {
           access_token: pageAccessToken,
+          fields: fields,
         });
     });
   }
