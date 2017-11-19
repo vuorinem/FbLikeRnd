@@ -12,6 +12,15 @@ export class Pages implements ComponentAttached {
   }
 
   public attached(): void {
-    // TODO: update pages list
+    this.refreshPages();
+  }
+
+  private async refreshPages(): Promise<void> {
+    const pages = await this.userService.fbApi(`/${this.userService.id}/accounts`);
+
+    this.pages = pages.data.map(page => <Page>{
+      id: page.id,
+      name: page.name,
+    });
   }
 }
