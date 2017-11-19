@@ -17,6 +17,8 @@ export class Likes {
   private hasPrevious: boolean = false;
   private hasNext: boolean = false;
 
+  private total: number = 0;
+
   constructor(private userService: UserService) {
     // No-op
   }
@@ -43,6 +45,7 @@ export class Likes {
       this.selectedLike = undefined;
       this.hasPrevious = false;
       this.hasNext = false;
+      this.total = 0;
       return;
     }
 
@@ -60,6 +63,8 @@ export class Likes {
 
     this.hasPrevious = !!likes.paging.previous;
     this.hasNext = !!likes.paging.next;
+
+    this.total = likes.summary.total_count;
 
     if (this.selectedLike) {
       this.selectedLike = this.likes.find(like => like.id === this.selectedLike.id);
