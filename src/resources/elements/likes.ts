@@ -42,10 +42,7 @@ export class Likes {
   private async refreshLikes(before?: string, after?: string): Promise<void> {
     if (!this.selectedPost || !this.selectedPage) {
       this.likes = [];
-      this.selectedLike = undefined;
-      this.hasPrevious = false;
-      this.hasNext = false;
-      this.total = 0;
+      this.clear();
       return;
     }
 
@@ -57,6 +54,11 @@ export class Likes {
       name: like.name,
       link: like.link,
     });
+
+    if (this.likes.length === 0) {
+      this.clear();
+      return;
+    }
 
     this.pageCursorBefore = likes.paging.cursors.before;
     this.pageCursorAfter = likes.paging.cursors.after;
@@ -71,5 +73,14 @@ export class Likes {
     } else {
       this.selectedLike = undefined;
     }
+  }
+
+  private clear() {
+    this.pageCursorBefore = undefined;
+    this.pageCursorAfter = undefined;
+    this.selectedLike = undefined;
+    this.hasPrevious = false;
+    this.hasNext = false;
+    this.total = 0;
   }
 }

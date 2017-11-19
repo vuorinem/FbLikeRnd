@@ -38,9 +38,7 @@ export class Posts {
   private async refreshPosts(before?: string, after?: string): Promise<void> {
     if (!this.selectedPage) {
       this.posts = [];
-      this.selectedPost = undefined;
-      this.hasPrevious = false;
-      this.hasNext = false;
+      this.clear();
       return;
     }
 
@@ -51,6 +49,11 @@ export class Posts {
       id: post.id,
       message: post.message,
     });
+
+    if (this.posts.length === 0) {
+      this.clear();
+      return;
+    }
 
     this.pageCursorBefore = posts.paging.cursors.before;
     this.pageCursorAfter = posts.paging.cursors.after;
@@ -63,5 +66,13 @@ export class Posts {
     } else {
       this.selectedPost = undefined;
     }
+  }
+
+  private clear() {
+    this.pageCursorBefore = undefined;
+    this.pageCursorAfter = undefined;
+    this.selectedPost = undefined;
+    this.hasPrevious = false;
+    this.hasNext = false;
   }
 }

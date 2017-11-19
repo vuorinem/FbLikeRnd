@@ -51,6 +51,11 @@ export class Pages implements ComponentAttached {
       access_token: page.access_token,
     });
 
+    if (this.pages.length === 0) {
+      this.clear();
+      return;
+    }
+
     this.pageCursorBefore = pages.paging.cursors.before;
     this.pageCursorAfter = pages.paging.cursors.after;
 
@@ -62,5 +67,13 @@ export class Pages implements ComponentAttached {
     } else {
       this.selectedPage = undefined;
     }
+  }
+
+  private clear() {
+    this.pageCursorBefore = undefined;
+    this.pageCursorAfter = undefined;
+    this.selectedPage = undefined;
+    this.hasPrevious = false;
+    this.hasNext = false;
   }
 }
