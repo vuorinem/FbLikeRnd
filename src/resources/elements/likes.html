@@ -1,0 +1,11 @@
+<template>
+    <div class="list-group">
+      <a href="#"
+         repeat.for="like of likes"
+         click.delegate="select(like)"
+         class="list-group-item ${like === selectedLike ? 'active' : ''}">
+        ${ like.name }
+      </a>
+    </div>
+  </template>
+  
