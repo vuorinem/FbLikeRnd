@@ -1,8 +1,21 @@
-import { PLATFORM } from 'aurelia-framework';
-import { ConfiguresRouter, RouterConfiguration, Router } from 'aurelia-router'
+import { PLATFORM, autoinject } from 'aurelia-framework';
+import {
+  ConfiguresRouter, RouterConfiguration, Router, RoutableComponentActivate, RouteConfig, NavigationInstruction
+} from 'aurelia-router';
 
-export class App implements ConfiguresRouter {
-  public configureRouter(config: RouterConfiguration, router: Router): void | Promise<void> | PromiseLike<void> {
+import { UserService } from './services/user-service';
+
+@autoinject
+export class App implements ConfiguresRouter, RoutableComponentActivate {
+  constructor(private userService: UserService) {
+    // No-op
+  }
+
+  public async activate(params: any, routeConfig: RouteConfig, navigationInstruction: NavigationInstruction) {
+    await this.userService.initialize();
+  }
+
+  public configureRouter(config: RouterConfiguration, router: Router) {
     config.map([
       {
         moduleId: PLATFORM.moduleName('views/home'),
