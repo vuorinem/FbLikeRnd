@@ -10,6 +10,11 @@ export class Posts {
   private posts: Post[] = [];
   @bindable private selectedPost: Post | undefined;
 
+  private pageCursorBefore: string | undefined;
+  private pageCursorAfter: string | undefined;
+  private hasPrevious: boolean = false;
+  private hasNext: boolean = false;
+
   constructor(private userService: UserService) {
     // No-op
   }
@@ -22,20 +27,36 @@ export class Posts {
     this.selectedPost = post;
   }
 
-  private async refreshPosts(): Promise<void> {
+  private next() {
+    this.refreshPosts(undefined, this.pageCursorAfter);
+  }
+
+  private previous() {
+    this.refreshPosts(this.pageCursorBefore, undefined);
+  }
+
+  private async refreshPosts(before?: string, after?: string): Promise<void> {
     if (!this.selectedPage) {
       this.posts = [];
       this.selectedPost = undefined;
+      this.hasPrevious = false;
+      this.hasNext = false;
       return;
     }
 
     const posts = await this.userService.fbPageApi(`/${this.selectedPage.id}/posts`,
-      this.selectedPage.access_token);
+      this.selectedPage.access_token, 'id,message', before, after);
 
     this.posts = posts.data.map(post => <Post>{
       id: post.id,
       message: post.message,
     });
+
+    this.pageCursorBefore = posts.paging.cursors.before;
+    this.pageCursorAfter = posts.paging.cursors.after;
+
+    this.hasPrevious = !!posts.paging.previous;
+    this.hasNext = !!posts.paging.next;
 
     if (this.selectedPost) {
       this.selectedPost = this.posts.find(post => post.id === this.selectedPost.id);

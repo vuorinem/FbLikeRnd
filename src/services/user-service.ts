@@ -40,7 +40,7 @@ export class UserService {
     });
   }
 
-  public fbApi(endpoint: string, fields?: string): Promise<any> {
+  public fbApi(endpoint: string, fields?: string, before?: string, after?: string): Promise<any> {
     return new Promise((resolve, reject) => {
       this.fbService.FB.api(endpoint, response => {
         resolve(response);
@@ -48,6 +48,8 @@ export class UserService {
           fields: fields,
           limit: 10,
           summary: true,
+          before: before,
+          after: after,
         });
     });
   }

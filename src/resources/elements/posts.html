@@ -1,4 +1,12 @@
 <template>
+  <nav>
+    <a href="#"
+       click.delegate="previous()"
+       class="btn btn-link ${hasPrevious ? '' : 'disabled'}">&lt; Previous</a>
+    <a href="#"
+       click.delegate="next()"
+       class="btn btn-link ${hasNext ? '' : 'disabled'}">Next &gt;</a>
+  </nav>
   <div class="list-group">
     <a href="#"
        repeat.for="post of posts"
