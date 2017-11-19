@@ -28,3 +28,6 @@ scripts
 bin
 obj
 /.chrome
+/.vs
+/wwwroot/dist
+/project.csproj.user
