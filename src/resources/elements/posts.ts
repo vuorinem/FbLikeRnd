@@ -24,6 +24,8 @@ export class Posts {
 
   private async refreshPosts(): Promise<void> {
     if (!this.selectedPage) {
+      this.posts = [];
+      this.selectedPost = undefined;
       return;
     }
 
@@ -33,5 +35,11 @@ export class Posts {
       id: post.id,
       message: post.message,
     });
+
+    if (this.selectedPost) {
+      this.selectedPost = this.posts.find(post => post.id === this.selectedPost.id);
+    } else {
+      this.selectedPost = undefined;
+    }
   }
 }

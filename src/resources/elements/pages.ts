@@ -21,11 +21,22 @@ export class Pages implements ComponentAttached {
   }
 
   private async refreshPages(): Promise<void> {
+    if (!this.userService.isAuthenticated) {
+      this.pages = [];
+      return;
+    }
+
     const pages = await this.userService.fbApi(`/${this.userService.id}/accounts`);
 
     this.pages = pages.data.map(page => <Page>{
       id: page.id,
       name: page.name,
     });
+
+    if (this.selectedPage) {
+      this.selectedPage = this.pages.find(page => page.id === this.selectedPage.id);
+    } else {
+      this.selectedPage = undefined;
+    }
   }
 }
