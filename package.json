@@ -47,7 +47,7 @@
     "style-loader": "0.18.2",
     "through2": "^2.0.1",
     "ts-node": "^3.2.0",
-    "typescript": ">=1.9.0-dev || ^2.0.0",
+    "typescript": "^2.6.1",
     "uglify-js": "^3.0.19",
     "url-loader": "0.5.8",
     "vinyl-fs": "^2.4.3",
