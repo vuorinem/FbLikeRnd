@@ -61,7 +61,7 @@ export class RandomLike {
 
   private wheelOf(items: number, moveTo: (index: number) => void, landOn: (index: number) => void) {
     const firstIndex = Math.floor(Math.random() * (items - 1));
-    const wheelStartInterval = 1000 / this.total;
+    const wheelStartInterval = Math.max(1000 / this.total, 1.1);
 
     this.turnWheel(items, firstIndex, wheelStartInterval, moveTo, landOn);
   }
@@ -87,6 +87,6 @@ export class RandomLike {
   }
 
   private getNextInterval(currentInterval: number): number {
-    return currentInterval ** (1 + Math.random() / 100);
+    return currentInterval ** (1 + (Math.random()  + 3.5) / this.wheelStopInterval);
   }
 }
