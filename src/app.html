@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-      <header>
+    <header>
       <div show.bind="userService.isAuthenticated">
         Welcome, ${ userService.name }
         <a href="#" class="float-right" click.delegate="logout()">Logout</a>
@@ -8,9 +8,9 @@
       <div hide.bind="userService.isAuthenticated">
         &nbsp;
       </div>
-      </header>
+    </header>
 
-      <main>
+    <main>
       <div show.bind="userService.isAuthenticated">
         <p class="text-center">
           <button class="btn btn-lg btn-${showRandom ? 'secondary' : 'primary'} ${ selectedPost ? '' : 'disabled' }"
@@ -24,7 +24,7 @@
              hide.bind="showRandom">
           <div class="col-md">
             <h2>Pages</h2>
-            <pages 
+            <pages user-id.bind="userService.id"
                    selected-page.two-way="selectedPage"></pages>
           </div>
           <div class="col-md">
@@ -36,7 +36,7 @@
             <h2>Likes</h2>
             <likes selected-page.bind="selectedPage"
                    selected-post.bind="selectedPost"></likes>
-    </div>
+          </div>
         </div>
 
         <random-like show.bind="showRandom"
@@ -52,7 +52,7 @@
             Login
           </button>
         </div>
-    </div>
+      </div>
     </main>
   </div>
 </template>

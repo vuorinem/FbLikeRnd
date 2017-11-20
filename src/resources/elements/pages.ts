@@ -5,6 +5,7 @@ import { Page } from './page';
 
 @autoinject
 export class Pages implements ComponentAttached {
+  @bindable private userId: number | undefined;
   private pages: Page[] = [];
   @bindable private selectedPage: Page | undefined;
 
@@ -17,7 +18,7 @@ export class Pages implements ComponentAttached {
     // No-op
   }
 
-  public attached(): void {
+  public userIdChanged() {
     this.refreshPages();
   }
 
@@ -34,7 +35,7 @@ export class Pages implements ComponentAttached {
   }
 
   private async refreshPages(before?: string, after?: string): Promise<void> {
-    if (!this.userService.isAuthenticated) {
+    if (!this.userService.isAuthenticated || !this.userId) {
       this.pages = [];
       this.selectedPage = undefined;
       this.hasPrevious = false;
@@ -42,7 +43,7 @@ export class Pages implements ComponentAttached {
       return;
     }
 
-    const pages = await this.userService.fbApi(`/${this.userService.id}/accounts`,
+    const pages = await this.userService.fbApi(`/${this.userId}/accounts`,
       'id,name,access_token', before, after);
 
     this.pages = pages.data.map(page => <Page>{
