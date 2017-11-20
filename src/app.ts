@@ -1,28 +1,15 @@
-import { PLATFORM, autoinject } from 'aurelia-framework';
-import {
-  ConfiguresRouter, RouterConfiguration, Router, RoutableComponentActivate, RouteConfig, NavigationInstruction
-} from 'aurelia-router';
+import { PLATFORM, autoinject, ComponentAttached } from 'aurelia-framework';
 
 import { UserService } from './services/user-service';
 
 @autoinject
-export class App implements ConfiguresRouter, RoutableComponentActivate {
+export class App implements ComponentAttached {
   constructor(private userService: UserService) {
     // No-op
   }
 
-  public async activate(params: any, routeConfig: RouteConfig, navigationInstruction: NavigationInstruction) {
+  public async attached() {
     await this.userService.initialize();
-  }
-
-  public configureRouter(config: RouterConfiguration, router: Router) {
-    config.map([
-      {
-        moduleId: PLATFORM.moduleName('views/home'),
-        name: 'Home',
-        route: '',
-      },
-    ]);
   }
 
   private login() {

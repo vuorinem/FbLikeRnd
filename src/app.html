@@ -1,17 +1,58 @@
 <template>
   <div class="container">
-    <div if.bind="userService.isAuthenticated">
       <header>
+      <div show.bind="userService.isAuthenticated">
         Welcome, ${ userService.name }
         <a href="#" class="float-right" click.delegate="logout()">Logout</a>
+      </div>
+      <div hide.bind="userService.isAuthenticated">
+        &nbsp;
+      </div>
       </header>
+
       <main>
-        <router-view></router-view>
-      </main>
+      <div show.bind="userService.isAuthenticated">
+        <p class="text-center">
+          <button class="btn btn-lg btn-${showRandom ? 'secondary' : 'primary'} ${ selectedPost ? '' : 'disabled' }"
+                  disabled.bind="!selectedPost"
+                  click.delegate="showRandom = !showRandom">
+            ${ showRandom ? '&lt; Back' : 'Selet Random Like' }
+          </button>
+        </p>
+
+        <div class="row"
+             hide.bind="showRandom">
+          <div class="col-md">
+            <h2>Pages</h2>
+            <pages 
+                   selected-page.two-way="selectedPage"></pages>
+          </div>
+          <div class="col-md">
+            <h2>Posts</h2>
+            <posts selected-page.bind="selectedPage"
+                   selected-post.two-way="selectedPost"></posts>
+          </div>
+          <div class="col-md">
+            <h2>Likes</h2>
+            <likes selected-page.bind="selectedPage"
+                   selected-post.bind="selectedPost"></likes>
     </div>
-    <div else>
-      You have not logged in
-      <button click.delegate="login()">Login</button>
+        </div>
+
+        <random-like show.bind="showRandom"
+                     page.bind="selectedPage"
+                     post.bind="selectedPost"></random-like>
+      </div>
+
+      <div class="row justify-content-md-center"
+           hide.bind="userService.isAuthenticated">
+        <div class="col col-md-2">
+          <button class="btn btn-primary btn-lg btn-block"
+                  click.delegate="login()">
+            Login
+          </button>
+        </div>
     </div>
+    </main>
   </div>
 </template>
