@@ -5,5 +5,6 @@ export function configure(config: FrameworkConfiguration) {
     PLATFORM.moduleName('./elements/pages'),
     PLATFORM.moduleName('./elements/posts'),
     PLATFORM.moduleName('./elements/likes'),
+    PLATFORM.moduleName('./elements/random-like'),
   ]);
 }
