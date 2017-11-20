@@ -1,3 +1,31 @@
 <template>
+  <h2>${ page.name }</h2>
+  <blockquote>${ post.message }</blockquote>
+
+  <p>
+    <button class="btn btn-primary btn-lg ${isSpinning ? 'disabled' : ''}"
+            disabled.bind="isSpinning"
+            click.delegate="randomLike()">Randomize Like</button>
+  </p>
+
+  <p show.bind="currentIndex !== undefined"
+     class="like-badges">
+    <span repeat.for="index of total"
+          class="badge badge-pill badge-${index === selectedIndex ? 'success' : (index === currentIndex ? 'primary' : 'secondary')}">
+      ${ index + 1 }
+    </span>
+  </p>
+
+  <div class="card winner">
+    <img class="card-img-top"
+         src.bind="user.pic_large"
+         alt="Winner Profile Image">
+    <div class="card-body">
+      <h4 class="card-title">${ user ? user.name : 'Number ' + (currentIndex + 1) }</h4>
+      <a href.bind="user.link"
+         show.bind="user"
+         class="btn btn-primary">Open In Facebook</a>
+    </div>
+  </div>
 
 </template>
