@@ -1,8 +1,10 @@
 <template>
   <p class="text-center">
-    <button class="btn btn-lg btn-primary ${ selectedPost ? '' : 'disabled' }"
+    <button class="btn btn-lg btn-${showRandom ? 'secondary' : 'primary'} ${ selectedPost ? '' : 'disabled' }"
             disabled.bind="!selectedPost"
-            click.delegate="showRandom = !showRandom">Selet Random Like</button>
+            click.delegate="showRandom = !showRandom">
+      ${ showRandom ? '&lt; Back' : 'Selet Random Like' }
+    </button>
   </p>
 
   <div class="row"
