@@ -71,6 +71,22 @@ export class UserService {
     });
   }
 
+  public fbPageApiWithOffset(endpoint: string, pageAccessToken: string, fields: string, limit: number,
+    offset?: number): Promise<any> {
+
+    return new Promise((resolve, reject) => {
+      this.fbService.FB.api(endpoint, response => {
+        resolve(response);
+      }, {
+          access_token: pageAccessToken,
+          fields: fields,
+          limit: limit,
+          offset: offset,
+          summary: true,
+        });
+    });
+  }
+
   private updateUserDetails(): Promise<void> {
     if (!this.isAuthenticated) {
       this.name = undefined;
