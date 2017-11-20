@@ -9,8 +9,13 @@ export class UserService {
 
   private authResponse: any;
 
-  @computedFrom('authResponse')
+  @computedFrom('id')
   public get isAuthenticated(): boolean {
+    return this.id !== undefined;
+  }
+
+  @computedFrom('authResponse')
+  public get isConnected(): boolean {
     return this.authResponse.status === 'connected';
   }
 
@@ -88,7 +93,8 @@ export class UserService {
   }
 
   private updateUserDetails(): Promise<void> {
-    if (!this.isAuthenticated) {
+    if (!this.isConnected) {
+      this.id = undefined;
       this.name = undefined;
     }
 
