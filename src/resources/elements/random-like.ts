@@ -29,9 +29,16 @@ export class RandomLike {
     // No-op
   }
 
+  private pageChanged() {
+    this.clear();
+  }
+
+  private postChanged() {
+    this.clear();
+  }
+
   private async randomLike() {
-    this.currentIndex = undefined;
-    this.selectedIndex = undefined;
+    this.clear();
 
     const response = await this.userService.fbPageApiWithOffset(`${this.post.id}/likes`, this.page.access_token,
       'id', 1);
@@ -46,6 +53,14 @@ export class RandomLike {
         this.selectedIndex = index;
         this.loadLike(index);
       });
+  }
+
+  private clear() {
+    this.total = undefined;
+    this.isSpinning = false;
+    this.currentIndex = undefined;
+    this.selectedIndex = undefined;
+    this.user = undefined;
   }
 
   private async loadLike(index: number) {
