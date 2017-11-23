@@ -23,11 +23,21 @@ main {
   margin: 2px;
 }
 
-.like-badges span.badge-secondary {
-  transition: background-color linear 1s;
+.like-badges span.badge-default {
+  animation-duration: 2s;
+  animation-name: badge-tail;
 }
 
 .winner {
   width: 20em;
   margin: 10px auto;
+}
+
+@keyframes badge-tail {
+  from {
+    background-color: #666;
+  }
+  to {
+    background-color: transparent;
+  }
 }

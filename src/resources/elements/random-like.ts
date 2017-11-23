@@ -26,13 +26,25 @@ export class RandomLike {
     // No-op
   }
 
-  private getCurrentClass(index: number, currentIndex?: number, selectedIndex?: number): string {
-    if (index === selectedIndex) {
+  private getCurrentClass(total: number, count: number, index: number,
+    currentIndex?: number, selectedIndex?: number): string {
+
+    if (this.isBetween(index, count, total, selectedIndex)) {
       return 'success';
-    } else if (index === currentIndex) {
+    } else if (this.isBetween(index, count, total, currentIndex)) {
       return 'primary';
     } else {
-      return 'secondary';
+      return 'default';
+    }
+  }
+
+  private isBetween(index: number, count: number, total: number, firstSelected: number): boolean {
+    if (index > firstSelected && index < firstSelected + count) {
+      return true;
+    } else if (total + index < firstSelected + count) {
+      return true;
+    } else {
+      return false;
     }
   }
 

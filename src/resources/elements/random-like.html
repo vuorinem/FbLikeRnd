@@ -11,7 +11,7 @@
   <p show.bind="currentIndex !== undefined"
      class="like-badges">
     <span repeat.for="index of total"
-          class="badge badge-pill badge-${getCurrentClass(index, currentIndex, selectedIndex)}">
+          class="badge badge-pill badge-${getCurrentClass(total, 1, index, currentIndex, selectedIndex)}">
       ${ index + 1 }
     </span>
   </p>
