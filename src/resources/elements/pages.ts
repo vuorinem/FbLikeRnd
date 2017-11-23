@@ -1,10 +1,10 @@
-import { autoinject, ComponentAttached, bindable } from 'aurelia-framework';
+import { autoinject, bindable } from 'aurelia-framework';
 
 import { UserService } from '../../services/user-service';
 import { Page } from './page';
 
 @autoinject
-export class Pages implements ComponentAttached {
+export class Pages {
   @bindable private userId: number | undefined;
   private pages: Page[] = [];
   @bindable private selectedPage: Page | undefined;
