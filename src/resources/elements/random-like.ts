@@ -4,6 +4,7 @@ import { bindable, computedFrom } from 'aurelia-framework';
 import { UserService } from '../../services/user-service';
 import { Page } from './page';
 import { Post } from './post';
+import { User } from './user';
 import { updateNamedExports } from 'typescript';
 import { setTimeout } from 'timers';
 
@@ -19,11 +20,7 @@ export class RandomLike {
 
   private wheelStopInterval: number = 1000;
 
-  private user: {
-    name: string,
-    link: string,
-    pic_large: string,
-  } | undefined;
+  private winner: User | undefined;
 
   constructor(private userService: UserService) {
     // No-op
@@ -60,14 +57,15 @@ export class RandomLike {
     this.isSpinning = false;
     this.currentIndex = undefined;
     this.selectedIndex = undefined;
-    this.user = undefined;
+    this.winner = undefined;
   }
 
   private async loadLike(index: number) {
     const response = await this.userService.fbPageApiWithOffset(`${this.post.id}/likes`, this.page.access_token,
-      'name,link,pic_large', 1, index);
+      'id,name,link,pic_large', 1, index);
 
-    this.user = {
+    this.winner = {
+      id: response.data[0].id,
       name: response.data[0].name,
       link: response.data[0].link,
       pic_large: response.data[0].pic_large,
