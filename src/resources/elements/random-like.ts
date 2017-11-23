@@ -26,6 +26,16 @@ export class RandomLike {
     // No-op
   }
 
+  private getCurrentClass(index: number, currentIndex?: number, selectedIndex?: number): string {
+    if (index === selectedIndex) {
+      return 'success';
+    } else if (index === currentIndex) {
+      return 'primary';
+    } else {
+      return 'secondary';
+    }
+  }
+
   private pageChanged() {
     this.clear();
   }
