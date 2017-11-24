@@ -7,6 +7,7 @@ import { Post } from './post';
 import { User } from './user';
 import { updateNamedExports } from 'typescript';
 import { setTimeout } from 'timers';
+import { isNumber } from 'util';
 
 @autoinject
 export class RandomLike {
@@ -14,12 +15,19 @@ export class RandomLike {
   @bindable private post: Post | undefined;
 
   private total: number | undefined;
+
+  private selectedCount: number = 5;
+  private currentFirstIndex: number | undefined;
+  private selectedFirstIndex: number | undefined;
+
   private currentIndex: number | undefined;
   private selectedIndex: number | undefined;
+
   private isSpinning: boolean = false;
 
   private wheelStopInterval: number = 1000;
 
+  private selectedUsers: User[] = [];
   private winner: User | undefined;
 
   constructor(private userService: UserService) {
@@ -39,7 +47,7 @@ export class RandomLike {
   }
 
   private isBetween(index: number, count: number, total: number, firstSelected: number): boolean {
-    if (index > firstSelected && index < firstSelected + count) {
+    if (index >= firstSelected && index < firstSelected + count) {
       return true;
     } else if (total + index < firstSelected + count) {
       return true;
@@ -56,7 +64,7 @@ export class RandomLike {
     this.clear();
   }
 
-  private async randomLike() {
+  private async randomSelect() {
     this.clear();
 
     const response = await this.userService.fbPageApiWithOffset(`${this.post.id}/likes`, this.page.access_token,
@@ -66,37 +74,66 @@ export class RandomLike {
 
     this.wheelOf(this.total,
       index => {
+        this.currentFirstIndex = index;
+      },
+      index => {
+        this.selectedFirstIndex = index;
+        this.loadLikes(index, this.selectedCount);
+      });
+  }
+
+  private async randomWinner() {
+    this.wheelOf(this.selectedUsers.length,
+      index => {
         this.currentIndex = index;
       },
       index => {
         this.selectedIndex = index;
-        this.loadLike(index);
+        this.winner = this.selectedUsers[index];
       });
   }
 
   private clear() {
     this.total = undefined;
     this.isSpinning = false;
+    this.currentFirstIndex = undefined;
+    this.selectedFirstIndex = undefined;
     this.currentIndex = undefined;
     this.selectedIndex = undefined;
+    this.selectedUsers = [];
     this.winner = undefined;
   }
 
-  private async loadLike(index: number) {
-    const response = await this.userService.fbPageApiWithOffset(`${this.post.id}/likes`, this.page.access_token,
-      'id,name,link,pic_large', 1, index);
+  private async loadLikes(firstIndex: number, count: number) {
+    this.selectedUsers = [];
 
-    this.winner = {
-      id: response.data[0].id,
-      name: response.data[0].name,
-      link: response.data[0].link,
-      pic_large: response.data[0].pic_large,
-    };
+    this.loadLikesToUsers(firstIndex, count);
+
+    const overflowCount = firstIndex + count - this.total;
+
+    if (overflowCount > 0) {
+      this.loadLikesToUsers(0, overflowCount);
+    }
+  }
+
+  private async loadLikesToUsers(offset: number, count: number) {
+    const response = await this.userService.fbPageApiWithOffset(`${this.post.id}/likes`, this.page.access_token,
+      'id,name,pic_square,pic_large', count, offset);
+
+    response.data.map(user => {
+      this.selectedUsers.push({
+        id: user.id,
+        name: user.name,
+        firstName: (user.name as string).split(" ", 2)[0],
+        picSquare: user.pic_square,
+        picLarge: user.pic_large,
+      });
+    });
   }
 
   private wheelOf(items: number, moveTo: (index: number) => void, landOn: (index: number) => void) {
     const firstIndex = Math.floor(Math.random() * (items - 1));
-    const wheelStartInterval = Math.max(1000 / this.total, 1.1);
+    const wheelStartInterval = Math.max(1000 / items, 1.1);
 
     this.turnWheel(items, firstIndex, wheelStartInterval, moveTo, landOn);
   }
@@ -122,6 +159,18 @@ export class RandomLike {
   }
 
   private getNextInterval(currentInterval: number): number {
-    return currentInterval ** (1 + (Math.random()  + 3.5) / this.wheelStopInterval);
+    return currentInterval ** (1 + (Math.random() + 3.5) / this.wheelStopInterval);
+  }
+}
+
+export class IntValueConverter {
+  public fromView(value: string): number {
+    const parsedValue = parseInt(value);
+
+    if (isNumber(parsedValue)) {
+      return Math.round(parsedValue);
+    } else {
+      return 0;
+    }
   }
 }

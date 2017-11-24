@@ -2,23 +2,58 @@
   <h2>${ page.name }</h2>
   <blockquote>${ post.message }</blockquote>
 
+  <p class="row">
+    <label class="col-md-3">Number of likes to select:</label>
+    <input type="number"
+           class="form-control col-md-2"
+           id="selected-count"
+           value.bind="selectedCount | int" />
+  </p>
+
   <p>
     <button class="btn btn-primary btn-lg ${isSpinning ? 'disabled' : ''}"
             disabled.bind="isSpinning"
-            click.delegate="randomLike()">Randomize Like</button>
+            click.delegate="randomSelect()">Pick ${ selectedCount } Likes</button>
+
+
   </p>
 
-  <p show.bind="currentIndex !== undefined"
-     class="like-badges">
-    <span repeat.for="index of total"
-          class="badge badge-pill badge-${getCurrentClass(total, 1, index, currentIndex, selectedIndex)}">
-      ${ index + 1 }
-    </span>
-  </p>
+  <div show.bind="currentFirstIndex !== undefined">
+    <h3>All Likers</h3>
+    <p class="like-badges">
+      <span repeat.for="index of total"
+            class="badge badge-pill badge-${getCurrentClass(total, selectedCount, index, currentFirstIndex, selectedFirstIndex)}">
+        ${ index + 1 }
+      </span>
+    </p>
+  </div>
 
-  <div class="card winner">
+  <div show.bind="selectedFirstIndex !== undefined">
+    <h3>Selected Finalists</h3>
+
+    <div class="row justify-content-md-center selected-users">
+      <div class="col col-lg-1 col-md-2 col-sm-3 col-xs-4"
+           repeat.for="user of selectedUsers">
+        <div class="card text-center bg-${getCurrentClass(selectedUsers.length, 1, $index, currentIndex, selectedIndex)}">
+          <img class="card-img-top"
+               src.bind="user.picSquare"
+               alt.bind="user.name">
+
+        </div>
+      </div>
+    </div>
+
+    <p>
+      <button class="btn btn-primary btn-lg ${isSpinning ? 'disabled' : ''}"
+              disabled.bind="isSpinning"
+              click.delegate="randomWinner()">Pick Winner</button>
+    </p>
+  </div>
+
+  <div class="card winner text-center"
+       show.bind="winner">
     <img class="card-img-top"
-         src.bind="winner.pic_large"
+         src.bind="winner.picLarge"
          alt="Winner Profile Image">
     <div class="card-body">
       <h4 class="card-title">${ winner ? winner.name : 'Liker #' + (currentIndex + 1) }</h4>

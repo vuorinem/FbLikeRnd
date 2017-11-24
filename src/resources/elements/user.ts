@@ -1,7 +1,8 @@
 export interface User {
   id: string,
   name: string,
+  firstName: string;
   link?: string,
-  pic_square?: string,
-  pic_large?: string,
+  picSquare?: string,
+  picLarge?: string,
 }

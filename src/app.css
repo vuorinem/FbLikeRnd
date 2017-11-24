@@ -23,7 +23,16 @@ main {
   margin: 2px;
 }
 
-.like-badges span.badge-default {
+.selected-users {
+  margin-bottom: 10px;
+}
+
+.selected-users .card {
+  padding: 10px;
+}
+
+.like-badges span.badge-default,
+.selected-users .card.bg-default {
   animation-duration: 2s;
   animation-name: badge-tail;
 }
