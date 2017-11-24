@@ -109,6 +109,9 @@ export class RandomLike {
       return;
     }
 
+    this.clearSelected();
+    this.clearWinner();
+
     this.wheelOf(this.total,
       index => {
         this.currentFirstIndex = index;
@@ -130,6 +133,8 @@ export class RandomLike {
       return;
     }
 
+    this.clearWinner();
+
     this.wheelOf(this.selectedUsers.length,
       index => {
         this.currentIndex = index;
@@ -143,11 +148,20 @@ export class RandomLike {
   private clear() {
     this.users = [];
     this.isSpinning = false;
+
+    this.clearSelected();
+    this.clearWinner();
+  }
+
+  private clearSelected() {
     this.currentFirstIndex = undefined;
     this.selectedFirstIndex = undefined;
+    this.selectedUsers = [];
+  }
+
+  private clearWinner() {
     this.currentIndex = undefined;
     this.selectedIndex = undefined;
-    this.selectedUsers = [];
     this.winner = undefined;
   }
 
@@ -172,6 +186,11 @@ export class RandomLike {
     this.isSpinning = true;
 
     setTimeout(() => {
+      if (!this.isSpinning) {
+        // Wheel has been stopped
+        return;
+      }
+
       const nextIndex = currentIndex === items - 1 ? 0 : currentIndex + 1;
       const nextInterval = this.getNextInterval(intervalToNext);
       this.turnWheel(items, nextIndex, nextInterval, moveTo, landOn);
