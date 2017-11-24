@@ -5,7 +5,7 @@ import { UserService } from './user-service';
 @autoinject
 export class LikeService {
 
-  private pageSize: number = 10;
+  private pageSize: number = 99;
 
   constructor(private userService: UserService) {
     // No-op
