@@ -168,13 +168,14 @@ export class RandomLike {
   }
 
   private wheelOf(items: number, moveTo: (index: number) => void, landOn: (index: number) => void) {
-    const firstIndex = Math.floor(Math.random() * (items - 1));
+    const firstIndex = 0;
     const wheelStartInterval = Math.max(1000 / items, 1.1);
+    const startSlowdownAfter = Math.floor(items * (5 + Math.random()));
 
-    this.turnWheel(items, firstIndex, wheelStartInterval, moveTo, landOn);
+    this.turnWheel(items, firstIndex, wheelStartInterval, startSlowdownAfter, moveTo, landOn);
   }
 
-  private turnWheel(items: number, currentIndex: number, intervalToNext: number,
+  private turnWheel(items: number, currentIndex: number, intervalToNext: number, startSlowdownAfter: number,
     moveTo: (index: number) => void, landOn: (index: number) => void) {
 
     moveTo(currentIndex);
@@ -194,8 +195,16 @@ export class RandomLike {
       }
 
       const nextIndex = currentIndex === items - 1 ? 0 : currentIndex + 1;
-      const nextInterval = this.getNextInterval(intervalToNext);
-      this.turnWheel(items, nextIndex, nextInterval, moveTo, landOn);
+
+      let nextInterval = intervalToNext;
+      let nextStartSlowdownAfter = startSlowdownAfter;
+      if (startSlowdownAfter < 0) {
+        nextInterval = this.getNextInterval(nextInterval);
+      } else {
+        nextStartSlowdownAfter = nextStartSlowdownAfter - 1;
+      }
+
+      this.turnWheel(items, nextIndex, nextInterval, nextStartSlowdownAfter, moveTo, landOn);
     }, intervalToNext);
   }
 
