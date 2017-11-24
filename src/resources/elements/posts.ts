@@ -42,8 +42,14 @@ export class Posts {
       return;
     }
 
-    const posts = await this.userService.fbPageApi(`/${this.selectedPage.id}/posts`,
-      this.selectedPage.access_token, 'id,message', before, after);
+    const posts = await this.userService.fbApi(`/${this.selectedPage.id}/posts`, {
+      access_token: this.selectedPage.access_token,
+      fields: 'id,message',
+      limit: 10,
+      summary: true,
+      before: before,
+      after: after,
+    });
 
     this.posts = posts.data.map(post => <Post>{
       id: post.id,

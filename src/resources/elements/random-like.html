@@ -2,20 +2,58 @@
   <h2>${ page.name }</h2>
   <blockquote>${ post.message }</blockquote>
 
-  <p class="row">
-    <label class="col-md-3">Number of likes to select:</label>
-    <input type="number"
-           class="form-control col-md-2"
-           id="selected-count"
-           value.bind="selectedCount | int" />
-  </p>
+  <form>
+    <div class="form-group row">
+      <label class="col-md-3"
+             for="selected-count">Number of likes to select</label>
+      <div class="col-md-1">
+        <input type="number"
+               class="form-control"
+               id="selected-count"
+               value.bind="selectedCount | int" />
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3"
+             for="start-date">Start Date</label>
+      <div class="col-md-3">
+        <input type="date"
+               class="form-control"
+               id="start-date"
+               value.bind="startDate" />
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3"
+             for="end-date">End Date</label>
+      <div class="col-md-3">
+        <input type="date"
+               class="form-control"
+               id="end-date"
+               value.bind="endDate" />
+      </div>
+    </div>
 
-  <p>
+    <div class="form-group row">
+      <div class="col-md-3 offset-md-3">
+        <button class="btn btn-primary btn-lg ${loadingProgress ? 'disabled' : ''}"
+                disabled.bind="loadingProgress"
+                click.delegate="loadLikes()">Load Likes</button>
+      </div>
+    </div>
+  </form>
+
+  <div class="progress"
+       show.bind="loadingProgress">
+    <div class="progress-bar progress-bar-striped progress-bar-animated"
+         role="progressbar"
+         style="width: ${loadingProgress}%"></div>
+  </div>
+
+  <p show.bind="users.length > 0">
     <button class="btn btn-primary btn-lg ${isSpinning ? 'disabled' : ''}"
-            disabled.bind="isSpinning"
-            click.delegate="randomSelect()">Pick ${ selectedCount } Likes</button>
-
-
+            disabled.bind="loadingProgress"
+            click.delegate="randomSelect()">Pick ${selectedCount} Likes</button>
   </p>
 
   <div show.bind="currentFirstIndex !== undefined">
@@ -38,7 +76,6 @@
           <img class="card-img-top"
                src.bind="user.picSquare"
                alt.bind="user.name">
-
         </div>
       </div>
     </div>

@@ -45,50 +45,11 @@ export class UserService {
     });
   }
 
-  public fbApi(endpoint: string, fields?: string, before?: string, after?: string): Promise<any> {
+  public fbApi(endpoint: string, options?: any): Promise<any> {
     return new Promise((resolve, reject) => {
       this.fbService.FB.api(endpoint, response => {
         resolve(response);
-      }, {
-          fields: fields,
-          limit: 10,
-          summary: true,
-          before: before,
-          after: after,
-        });
-    });
-  }
-
-  public fbPageApi(endpoint: string, pageAccessToken: string, fields?: string, before?: string, after?: string)
-    : Promise<any> {
-
-    return new Promise((resolve, reject) => {
-      this.fbService.FB.api(endpoint, response => {
-        resolve(response);
-      }, {
-          access_token: pageAccessToken,
-          fields: fields,
-          limit: 10,
-          summary: true,
-          before: before,
-          after: after,
-        });
-    });
-  }
-
-  public fbPageApiWithOffset(endpoint: string, pageAccessToken: string, fields: string, limit: number,
-    offset?: number): Promise<any> {
-
-    return new Promise((resolve, reject) => {
-      this.fbService.FB.api(endpoint, response => {
-        resolve(response);
-      }, {
-          access_token: pageAccessToken,
-          fields: fields,
-          limit: limit,
-          offset: offset,
-          summary: true,
-        });
+      }, options);
     });
   }
 

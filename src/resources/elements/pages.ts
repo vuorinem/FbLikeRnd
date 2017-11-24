@@ -43,8 +43,11 @@ export class Pages {
       return;
     }
 
-    const pages = await this.userService.fbApi(`/${this.userId}/accounts`,
-      'id,name,access_token', before, after);
+    const pages = await this.userService.fbApi(`/${this.userId}/accounts`, {
+      fields: 'id,name,access_token',
+      before: before,
+      after: after,
+    });
 
     this.pages = pages.data.map(page => <Page>{
       id: page.id,

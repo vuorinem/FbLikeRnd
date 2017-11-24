@@ -1,20 +1,21 @@
 import { autoinject } from 'aurelia-framework';
 import { bindable, computedFrom } from 'aurelia-framework';
 
-import { UserService } from '../../services/user-service';
+import { LikeService } from './../../services/like-service';
 import { Page } from './page';
 import { Post } from './post';
 import { User } from './user';
 import { updateNamedExports } from 'typescript';
 import { setTimeout } from 'timers';
-import { isNumber } from 'util';
+import { isNumber, isDate } from 'util';
 
 @autoinject
 export class RandomLike {
   @bindable private page: Page | undefined;
   @bindable private post: Post | undefined;
 
-  private total: number | undefined;
+  private startDate: string | undefined;
+  private endDate: string | undefined;
 
   private selectedCount: number = 5;
   private currentFirstIndex: number | undefined;
@@ -27,10 +28,18 @@ export class RandomLike {
 
   private wheelStopInterval: number = 1000;
 
+  private users: User[] = [];
   private selectedUsers: User[] = [];
   private winner: User | undefined;
 
-  constructor(private userService: UserService) {
+  private loadingProgress: number | undefined;
+
+  @computedFrom('users')
+  public get total(): number {
+    return this.users.length;
+  }
+
+  constructor(private likeService: LikeService) {
     // No-op
   }
 
@@ -64,21 +73,38 @@ export class RandomLike {
     this.clear();
   }
 
-  private async randomSelect() {
+  private async loadLikes() {
+    const sinceDate = new Date(this.startDate);
+    const untilDate = new Date(this.endDate);
+
+    if (!isDate(sinceDate) || !isDate(untilDate)) {
+      return;
+    }
+
+    untilDate.setHours(23);
+    untilDate.setMinutes(59);
+    untilDate.setSeconds(59);
+
+    const since = sinceDate.getTime() / 1000;
+    const until = untilDate.getTime() / 1000;
+
     this.clear();
 
-    const response = await this.userService.fbPageApiWithOffset(`${this.post.id}/likes`, this.page.access_token,
-      'id', 1);
+    this.users = await this.likeService.getUsers(this.post.id, since, until, this.page.access_token, progress => {
+      this.loadingProgress = progress;
+    });
 
-    this.total = response.summary.total_count;
+    this.loadingProgress = undefined;
+  }
 
+  private randomSelect() {
     this.wheelOf(this.total,
       index => {
         this.currentFirstIndex = index;
       },
       index => {
         this.selectedFirstIndex = index;
-        this.loadLikes(index, this.selectedCount);
+        this.selectedUsers = this.users.slice(index, index + this.selectedCount);
       });
   }
 
@@ -94,7 +120,7 @@ export class RandomLike {
   }
 
   private clear() {
-    this.total = undefined;
+    this.users = [];
     this.isSpinning = false;
     this.currentFirstIndex = undefined;
     this.selectedFirstIndex = undefined;
@@ -102,33 +128,6 @@ export class RandomLike {
     this.selectedIndex = undefined;
     this.selectedUsers = [];
     this.winner = undefined;
-  }
-
-  private async loadLikes(firstIndex: number, count: number) {
-    this.selectedUsers = [];
-
-    this.loadLikesToUsers(firstIndex, count);
-
-    const overflowCount = firstIndex + count - this.total;
-
-    if (overflowCount > 0) {
-      this.loadLikesToUsers(0, overflowCount);
-    }
-  }
-
-  private async loadLikesToUsers(offset: number, count: number) {
-    const response = await this.userService.fbPageApiWithOffset(`${this.post.id}/likes`, this.page.access_token,
-      'id,name,pic_square,pic_large', count, offset);
-
-    response.data.map(user => {
-      this.selectedUsers.push({
-        id: user.id,
-        name: user.name,
-        firstName: (user.name as string).split(" ", 2)[0],
-        picSquare: user.pic_square,
-        picLarge: user.pic_large,
-      });
-    });
   }
 
   private wheelOf(items: number, moveTo: (index: number) => void, landOn: (index: number) => void) {
