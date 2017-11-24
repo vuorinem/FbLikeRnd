@@ -97,9 +97,11 @@ export class RandomLike {
 
     this.loadingProgress = 0;
 
-    this.users = await this.likeService.getUsers(this.post.id, since, until, this.page.access_token, progress => {
+    const users = await this.likeService.getUsers(this.post.id, since, until, this.page.access_token, progress => {
       this.loadingProgress = progress;
     });
+
+    this.users = users.sort(() => Math.random() < 0.5 ? -1 : 1);
 
     this.loadingProgress = undefined;
   }
