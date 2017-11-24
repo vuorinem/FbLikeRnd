@@ -105,6 +105,12 @@ export class RandomLike {
       index => {
         this.selectedFirstIndex = index;
         this.selectedUsers = this.users.slice(index, index + this.selectedCount);
+
+        const overflowCount = index + this.selectedCount - this.total;
+
+        if (overflowCount > 0) {
+          this.selectedUsers.push(...this.users.slice(0, overflowCount));
+        }
       });
   }
 
