@@ -54,6 +54,8 @@
     <button class="btn btn-primary btn-lg ${isSpinning ? 'disabled' : ''}"
             disabled.bind="loadingProgress"
             click.delegate="randomSelect()">Pick ${selectedCount} Likes</button>
+
+    Total number of likes: ${users.length}
   </p>
 
   <div show.bind="currentFirstIndex !== undefined">
