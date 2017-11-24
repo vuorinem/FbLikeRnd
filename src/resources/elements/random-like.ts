@@ -74,6 +74,11 @@ export class RandomLike {
   }
 
   private async loadLikes() {
+    if (this.loadingProgress !== undefined) {
+      // Loading already in progress
+      return;
+    }
+
     const sinceDate = new Date(this.startDate);
     const untilDate = new Date(this.endDate);
 
@@ -90,6 +95,8 @@ export class RandomLike {
 
     this.clear();
 
+    this.loadingProgress = 0;
+
     this.users = await this.likeService.getUsers(this.post.id, since, until, this.page.access_token, progress => {
       this.loadingProgress = progress;
     });
@@ -98,6 +105,10 @@ export class RandomLike {
   }
 
   private randomSelect() {
+    if (this.isSpinning) {
+      return;
+    }
+
     this.wheelOf(this.total,
       index => {
         this.currentFirstIndex = index;
@@ -115,6 +126,10 @@ export class RandomLike {
   }
 
   private async randomWinner() {
+    if (this.isSpinning) {
+      return;
+    }
+
     this.wheelOf(this.selectedUsers.length,
       index => {
         this.currentIndex = index;
