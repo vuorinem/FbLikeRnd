@@ -64,10 +64,12 @@ export class LikeService {
 
   private appendUsers(users: User[], data: any[]) {
     data.map(user => {
+      const names = (user.name as string).split(" ");
+
       users.push({
         id: user.id,
         name: user.name,
-        firstName: (user.name as string).split(" ", 2)[0],
+        initials: names[0][0] + (names.length > 1 ? names[names.length - 1][0] : ''),
         picSquare: user.pic_square,
         picLarge: user.pic_large,
       });

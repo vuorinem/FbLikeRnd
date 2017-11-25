@@ -64,7 +64,7 @@
     <p class="like-badges">
       <span repeat.for="index of total"
             class="badge badge-pill badge-${getCurrentClass(total, selectedCount, index, currentFirstIndex, selectedFirstIndex)}">
-        ${ index + 1 }
+        ${users[index].initials}
       </span>
     </p>
   </div>
@@ -96,7 +96,7 @@
          src.bind="winner.picLarge"
          alt="Winner Profile Image">
     <div class="card-body">
-      <h4 class="card-title">${ winner ? winner.name : 'Liker #' + (currentIndex + 1) }</h4>
+      <h4 class="card-title">${ winner ? winner.name : selectedUsers[currentIndex].name }</h4>
       <a href.bind="winner.link"
          show.bind="winner"
          class="btn btn-primary">Open In Facebook</a>
