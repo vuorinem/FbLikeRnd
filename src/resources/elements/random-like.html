@@ -91,7 +91,7 @@
   </div>
 
   <div class="card winner text-center"
-       show.bind="winner">
+       show.bind="winner || currentIndex !== undefined">
     <img class="card-img-top"
          src.bind="winner.picLarge"
          alt="Winner Profile Image">
