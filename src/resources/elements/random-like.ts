@@ -209,7 +209,7 @@ export class RandomLike {
   }
 
   private getNextInterval(currentInterval: number): number {
-    return currentInterval ** (1 + (Math.random() + 3.5) / this.wheelStopInterval);
+    return currentInterval ** (1 + currentInterval / (Math.random() * 5 + 28) / this.wheelStopInterval);
   }
 }
 
