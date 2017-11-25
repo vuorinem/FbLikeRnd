@@ -188,24 +188,34 @@ export class RandomLike {
 
     this.isSpinning = true;
 
+    let interval = intervalToNext;
+    let skip = 1;
+    if (intervalToNext < 30) {
+      skip = Math.floor(30 / intervalToNext);
+      interval = intervalToNext / skip;
+    }
+
     setTimeout(() => {
       if (!this.isSpinning) {
         // Wheel has been stopped
         return;
       }
 
-      const nextIndex = currentIndex === items - 1 ? 0 : currentIndex + 1;
+      let nextIndex = currentIndex + skip;
+      if (nextIndex >= items) {
+        nextIndex -= items;
+      }
 
       let nextInterval = intervalToNext;
       let nextStartSlowdownAfter = startSlowdownAfter;
       if (startSlowdownAfter < 0) {
         nextInterval = this.getNextInterval(nextInterval);
       } else {
-        nextStartSlowdownAfter = nextStartSlowdownAfter - 1;
+        nextStartSlowdownAfter = nextStartSlowdownAfter - skip;
       }
 
       this.turnWheel(items, nextIndex, nextInterval, nextStartSlowdownAfter, moveTo, landOn);
-    }, intervalToNext);
+    }, interval);
   }
 
   private getNextInterval(currentInterval: number): number {
