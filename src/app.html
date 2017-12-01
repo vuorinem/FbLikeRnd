@@ -12,14 +12,6 @@
 
     <main>
       <div show.bind="userService.isAuthenticated">
-        <p class="text-center">
-          <button class="btn btn-lg btn-${showRandom ? 'secondary' : 'primary'} ${ selectedPost ? '' : 'disabled' }"
-                  disabled.bind="!selectedPost"
-                  click.delegate="showRandom = !showRandom">
-            ${ showRandom ? '&lt; Back' : 'Selet Random Like' }
-          </button>
-        </p>
-
         <div class="row"
              hide.bind="showRandom">
           <div class="col-md">
@@ -33,7 +25,14 @@
                    selected-post.two-way="selectedPost"></posts>
           </div>
           <div class="col-md">
-            <h2>Likes</h2>
+            <h2>
+              Likes
+              <button class="float-right btn btn-${showRandom ? 'secondary' : 'primary'} ${ selectedPost ? '' : 'disabled' }"
+                      disabled.bind="!selectedPost"
+                      click.delegate="showRandom = !showRandom">
+                ${ showRandom ? '&lt; Back' : 'Selet Random Like' }
+              </button>
+            </h2>
             <likes selected-page.bind="selectedPage"
                    selected-post.bind="selectedPost"></likes>
           </div>
