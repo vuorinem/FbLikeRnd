@@ -1,12 +1,21 @@
 <template>
-  <div class="container">
-    <header>
-      <div show.bind="userService.isAuthenticated">
-        Welcome, ${ userService.name }
-        <a href="#" class="float-right" click.delegate="logout()">Logout</a>
+  <div class="container-fluid">
+    <header class="row">
+      <div class="col text-left">
+        <span show.bind="userService.isAuthenticated">
+          Welcome, ${ userService.name }
+          <small>
+            <a href="#" click.delegate="logout()">
+              (logout)
+            </a>
+          </small>
+        </span>
       </div>
-      <div hide.bind="userService.isAuthenticated">
-        &nbsp;
+      <div class="col text-center">
+        
+      </div>
+      <div class="col text-right">
+        <img src="/codify.png" alt="Codify" />
       </div>
     </header>
 
