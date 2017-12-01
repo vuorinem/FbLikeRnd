@@ -38,8 +38,14 @@ main {
 }
 
 .winner {
-  width: 20em;
+  width: 400px;
   margin: 10px auto;
+  padding-top: 15px;
+}
+
+.winner img {
+  margin: auto;
+  width: auto;
 }
 
 @keyframes badge-tail {
