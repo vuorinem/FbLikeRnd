@@ -93,8 +93,17 @@
   <div class="card winner text-center"
        show.bind="winner || currentIndex !== undefined">
     <img class="card-img-top"
+         show.bind="winner"
          src.bind="winner.picLarge"
          alt="Winner Profile Image">
+    <div class="card-img-top codify-loader"
+         hide.bind="winner">
+      <div class="center"></div>
+      <div class="top-left corner"></div>
+      <div class="top-right corner"></div>
+      <div class="bottom-left corner"></div>
+      <div class="bottom-right corner"></div>
+    </div>
     <div class="card-body">
       <h4 class="card-title">${ winner ? winner.name : selectedUsers[currentIndex].name }</h4>
       <a href.bind="winner.link"

@@ -65,3 +65,128 @@ main {
     background-color: transparent;
   }
 }
+
+.codify-loader {
+  background-color: #fff;
+  width: 200px;
+  height: 200px;
+  margin: auto;
+}
+
+.codify-loader > div.corner {
+  height: 133px;
+  width: 133px;
+  position: absolute;
+  animation-duration: 8s;
+  animation-timing-function: ease;
+  animation-iteration-count: infinite;
+}
+
+.codify-loader > div.top-left {
+  background-color: #EE772D;
+  animation-name: codify-loader-animation-top-left;
+}
+.codify-loader > div.top-right {
+}
+.codify-loader > div.bottom-left {
+}
+.codify-loader > div.bottom-right {
+  margin-top: 67px;
+  margin-left: 67px;
+  background-color: #777677;
+  animation-name: codify-loader-animation-bottom-right;
+}
+.codify-loader > div.center {
+  background-color: #fff;
+  z-index: 5;
+  margin: 67px;
+  height: 67px;
+  width: 67px;
+  position: absolute;
+  animation-name: codify-loader-animation-center;
+  animation-duration: 2s;
+  animation-timing-function: ease;
+  animation-iteration-count: infinite;
+}
+
+@keyframes codify-loader-animation-top-left {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  10% {
+    transform: translate(66px, 0) rotate(90deg);
+  }
+  25% {
+    transform: translate(66px, 0) rotate(90deg);
+  }
+
+  35% {
+    transform: translate(66px, 66px) rotate(180deg);
+  }
+  50% {
+    transform: translate(66px, 66px) rotate(180deg);
+  }
+
+  60% {
+    transform: translate(0, 66px) rotate(270deg);
+  }
+  75% {
+    transform: translate(0, 66px) rotate(270deg);
+  }
+
+  85% {
+    transform: translate(0, 0) rotate(360deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(360deg);
+  }
+}
+
+@keyframes codify-loader-animation-bottom-right {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  10% {
+    transform: translate(-66px, 0) rotate(-90deg);
+  }
+  25% {
+    transform: translate(-66px, 0) rotate(-90deg);
+  }
+
+  30% {
+    transform: translate(-66px, -66px) rotate(-180deg);
+  }
+  50% {
+    transform: translate(-66px, -66px) rotate(-180deg);
+  }
+
+  60% {
+    transform: translate(0, -66px) rotate(-270deg);
+  }
+  75% {
+    transform: translate(0, -66px) rotate(-270deg);
+  }
+
+  85% {
+    transform: translate(0, 0) rotate(-360deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(-360deg);
+  }
+}
+
+@keyframes codify-loader-animation-center {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  20% {
+    transform: rotate(90deg);
+  }
+
+  100% {
+    transform: rotate(90deg);
+  }
+}
