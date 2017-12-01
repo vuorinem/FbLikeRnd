@@ -20,7 +20,7 @@ export class LikeService {
       until: until,
       summary: true,
       limit: this.pageSize,
-      fields: 'id,name,pic_square,pic_large',
+      fields: 'id,name,pic_square,pic_large,link',
     });
 
     const total: number = response.summary.total_count;
@@ -54,7 +54,7 @@ export class LikeService {
       until: until,
       after: after,
       limit: this.pageSize,
-      fields: 'id,name,pic_square,pic_large',
+      fields: 'id,name,pic_square,pic_large,link',
     });
 
     this.appendUsers(users, response.data);
@@ -72,6 +72,7 @@ export class LikeService {
         initials: names[0][0] + (names.length > 1 ? names[names.length - 1][0] : ''),
         picSquare: user.pic_square,
         picLarge: user.pic_large,
+        link: user.link,
       });
     });
   }
